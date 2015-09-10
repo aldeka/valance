@@ -1,0 +1,18 @@
+{
+  "name": "sample-valence-app",
+  "version": "0.0.1",
+  "main": "main.js",
+  "description": "Sample Electron app with native-alike styling.",
+  "dependencies": {
+    "browserify": "^11.0.1",
+    "lodash": "^3.10.1",
+    "react-tools": "^0.13.3",
+    "watchify": "^3.4.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}

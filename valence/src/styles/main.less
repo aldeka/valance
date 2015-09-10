@@ -1,0 +1,61 @@
+body {
+    background: white;
+    font-family: 'Helvetica Neue', Helvetica, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+@yosemiteRed: #ff7600;
+@yosemiteAmber: #ffcc00;
+@yosemiteGreen: #10d933;
+@yosemiteToolbarBG: #f6f6f6;
+
+.toolbar {
+    background-color: @yosemiteToolbarBG;
+    box-sizing: border-box;
+    height: 22px;
+    padding-top: 6px;
+    -webkit-app-region: drag;
+
+    .window-buttons {
+        -webkit-app-region: no-drag;
+
+        display: flex;
+        flex-direction: row;
+
+        .button {
+            height: 12px;
+            width: 12px;
+            -webkit-border-radius: 6px;
+            background-color: @yosemiteRed;
+            border: 1pt solid darken(@yosemiteRed, 5%);
+            margin-left: 8px;
+            padding: 0;
+
+            flex: 0 0 auto;
+            display: flex;
+            flex-direction column;
+
+            &.minimize {
+                background-color: @yosemiteAmber;
+                border-color: darken(@yosemiteAmber, 5%);
+            }
+            &.maximize {
+                background-color: @yosemiteGreen;
+                border-color: darken(@yosemiteGreen, 5%);
+            }
+
+            span {
+                flex: 1 0 auto;
+                font-size: 10px;
+                font-weight: bold;
+                margin: 0 auto;
+                text-align: center;
+            }
+        }
+
+        &:hover .button span {
+            visibility: visible;
+        }
+    }
+}
