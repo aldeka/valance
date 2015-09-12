@@ -1,3 +1,4 @@
+*.DS_Store
 valance/node_modules
 valance/build
 valance/pid

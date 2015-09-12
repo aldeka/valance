@@ -1,61 +1,176 @@
+@import "variables";
+@import "util";
+
+
+@imgFolder: "../static/img/";
+
 body {
-    background: white;
-    font-family: 'Helvetica Neue', Helvetica, sans-serif;
-    margin: 0;
-    padding: 0;
+  background: @body-bg;
+  font-family: @font-family;
+  font-size: @font-size-base;
+  line-height: @line-height-base;
+  margin: 0;
+  padding: 0;
+
+  * {
+    -webkit-user-drag: text;
+
+    &:hover {
+      cursor: default;
+    }
+    &:focus {
+      outline: none;
+    }
+  }
+
+  img {
+    -webkit-user-drag: none;
+  }
 }
 
-@yosemiteRed: #ff7600;
-@yosemiteAmber: #ffcc00;
-@yosemiteGreen: #10d933;
-@yosemiteToolbarBG: #f6f6f6;
+.valance-toolbar-container {
+  background-image: -webkit-linear-gradient(top, lighten(@toolbar-background-color, 10.5%), @toolbar-background-color);
+  box-shadow: inset 0 1px 0 lighten(@toolbar-background-color, 15%);
 
-.toolbar {
-    background-color: @yosemiteToolbarBG;
-    box-sizing: border-box;
-    height: 22px;
-    padding-top: 6px;
-    -webkit-app-region: drag;
+  color: @text-color-subtle;
+}
 
-    .window-buttons {
-        -webkit-app-region: no-drag;
+.valance-toolbar {
+  @toolbarHeight: 50px; // 22px; // 44px; // 36px;
 
-        display: flex;
-        flex-direction: row;
+  @toolbarButtonHeight: 12px;
+  @toolbarButtonWidth: 48px;
 
-        .button {
-            height: 12px;
-            width: 12px;
-            -webkit-border-radius: 6px;
-            background-color: @yosemiteRed;
-            border: 1pt solid darken(@yosemiteRed, 5%);
-            margin-left: 8px;
-            padding: 0;
+  box-sizing: border-box;
+  height: @toolbarHeight;
+  // for preventing flexbox squashing/growing
+  max-height: @toolbarHeight;
+  min-height: @toolbarHeight;
+  width: 100%;
+  z-index: 10;
+  padding: 0 max((@toolbarHeight - @toolbarButtonHeight) / 2, @toolbarButtonHeight * 2 / 3);
+  border-bottom: 1px solid darken(@toolbar-background-color, 9%);
+  -webkit-app-region: drag;
 
-            flex: 0 0 auto;
-            display: flex;
-            flex-direction column;
+  position: relative;
 
-            &.minimize {
-                background-color: @yosemiteAmber;
-                border-color: darken(@yosemiteAmber, 5%);
-            }
-            &.maximize {
-                background-color: @yosemiteGreen;
-                border-color: darken(@yosemiteGreen, 5%);
-            }
+  .toolbar-window-controls {
+    -webkit-app-region: no-drag;
 
-            span {
-                flex: 1 0 auto;
-                font-size: 10px;
-                font-weight: bold;
-                margin: 0 auto;
-                text-align: center;
-            }
-        }
+    position: absolute;
+    top: 0;
+    order: -1000;
 
-        &:hover .button span {
-            visibility: visible;
-        }
+    height: @toolbarHeight;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    &:hover {
+      button {
+        background-position: 0 -12px;
+      }
     }
+
+    .toolbar-button(@path) {
+      .image-2x("@{imgFolder}@{path}", @toolbarButtonHeight, @toolbarButtonWidth);
+    }
+
+    button {
+      -webkit-app-region: no-drag;
+      flex: 0 0 auto;
+      display: inline-block;
+      padding: 0;
+      width: @toolbarButtonHeight;
+      height: @toolbarButtonHeight;
+      margin: @toolbarButtonHeight/3 @toolbarButtonHeight*2/3 @toolbarButtonHeight/3 0;
+      float: left;
+
+      background-color: transparent;
+      background-repeat: no-repeat;
+      background-position: 0 0;
+      border: 0;
+
+      &:active {
+        background-position: 0 -24px;
+      }
+      &:focus {
+        outline: none;
+      }
+
+      &.close {
+        .toolbar-button("application-frame/close.png");
+      }
+      &.minimize {
+        .toolbar-button("application-frame/minimize.png");
+      }
+      &.maximize {
+        .toolbar-button("application-frame/maximize.png");
+      }
+    }
+  }
+
+  .title {
+    font-size: @toolbarButtonHeight + 2;
+    font-weight: 200px;
+    text-align: center;
+    padding-top: (@toolbarHeight - @toolbarButtonHeight) / 2 - 4;
+  }
+}
+
+/*  Window out-of-focus styling */
+body.is-blurred {
+  pointer-events: none;
+
+  .toolbar-window-controls {
+    pointer-events: all;
+    button {
+      background-position: 0 -36px;
+    }
+  }
+  .valance-toolbar-container {
+    background-image: -webkit-linear-gradient(top, lighten(@toolbar-background-color, 9.6%), lighten(@toolbar-background-color, 9.6%));
+    .btn.btn-toolbar img {
+      opacity:0.5;
+    }
+  }
+
+  .valance-toolbar .title {
+    color: @text-color-very-subtle;
+  }
+}
+
+// WINDOWS
+
+body.platform-win32 {
+  .flexbox-handle-vertical {
+    cursor:ns-resize;
+  }
+  .flexbox-handle-horizontal {
+    cursor:ew-resize;
+  }
+
+  .toolbar-window-controls {
+    display:none;
+  }
+
+  .valance-toolbar-container {
+    background-image: none;
+    background: @background-primary;
+  }
+}
+body.platform-win32.is-blurred {
+  .valance-toolbar-container {
+    background-image: none;
+    background: @background-primary;
+  }
+}
+
+// LINUX
+
+body.platform-linux {
+  .toolbar-window-controls {
+    display:none;
+  }
 }

@@ -6,16 +6,15 @@ var React = require('react'),
 var Toolbar = React.createClass({
     render: function () {
         return (
-            <div className="toolbar">
-                <div className="window-buttons">
-                    <div className="button close" onClick={ this.closeWindow }>
-                        <span>x</span>
+            <div className="valance-toolbar-container">
+                <div className="valance-toolbar">
+                    <div className="toolbar-window-controls">
+                        <button className="close" onClick={ this.closeWindow } />
+                        <button className="minimize" onClick={ this.minimizeWindow } />
+                        <button className="maximize" onClick={ this.maximizeWindow } />
                     </div>
-                    <div className="button minimize" onClick={ this.minimizeWindow }>
-                        <span>-</span>
-                    </div>
-                    <div className="button maximize" onClick={ this.maximizeWindow }>
-                        <span>+</span>
+                    <div className="title">
+                        hello world
                     </div>
                 </div>
             </div>
